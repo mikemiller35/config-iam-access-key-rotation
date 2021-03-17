@@ -1,0 +1,9 @@
+.DS_Store
+venv/
+.serverless/
+.idea/
+node_modules/
+package*.json
+.requirements.zip
+settings.json
+testEvent.json

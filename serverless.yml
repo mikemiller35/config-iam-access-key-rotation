@@ -1,0 +1,57 @@
+# serverless.yml
+
+service: iam-access-key-rotation
+
+plugins:
+  - serverless-python-individually
+
+custom:
+    pyIndividually:
+      wrap:process-data: src/handler.src
+
+provider:
+    name: aws
+    runtime: python3.8
+    stage: ${opt:stage, 'dev'}
+    region: ${opt:region, 'us-west-2'}
+    stackTags: 
+        billingproject: ${self:service}
+        Team: Implementation
+        Contact: mmiller
+    environment:
+      RECIPIENT_EMAIL: ${opt:sendto, 'null@null.com'}
+      SENDER_EMAIL: ${opt:sendfrom, 'null@null.com'}
+    logRetentionInDays: 5
+    iamRoleStatements:
+      - Effect: 'Allow'
+        Action:
+          - 'ses:SendEmail'
+          - 'ses:SendRawEmail'
+          - 'iam:ListUsers'
+        Resource: '*'
+
+package:
+    individually: True
+    exclude:
+        - '**/*'
+
+functions:
+    notifier:
+        handler: src/handler.lambda_handler
+        memorySize: 128
+        package:
+            include:
+                - src/**
+        events:
+            - cloudwatchEvent:
+               event:
+                source:
+                  - 'aws.config'
+                detail-type:
+                  - 'Config Rules Compliance Change'
+                detail:
+                  configRuleName:
+                    - 'IAM_ACCESS_KEY_ROTATED'
+                  newEvaluationResult:
+                    complianceType:
+                      - 'NON_COMPLIANT'
