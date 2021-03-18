@@ -2,6 +2,10 @@
 
 We want to ensure people's access keys are within a certain age.
 
+To do this we user a customer Config rule, and a Lambda that is triggered via a CloudWatch event.  Read below on how the deploy works.
+
+Currently the Lambda that runs, when we get a user in the `NON_COMPLIANT` status; we simply sent an email with SES.  There are many other possibilities, but this is just a primer.  In the future we'll get auto lockouts and key removal.
+
 ## Requirements
 
 * Configure AWS Config to record `AWS::IAM::User`
