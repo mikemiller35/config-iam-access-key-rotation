@@ -2,13 +2,6 @@
 
 service: iam-access-key-rotation
 
-plugins:
-  - serverless-python-individually
-
-custom:
-    pyIndividually:
-      wrap:process-data: src/handler.src
-
 provider:
     name: aws
     runtime: python3.8
