@@ -15,7 +15,7 @@ def send_mesage(username, configmsg, compliance):
     SENDER = os.getenv("SENDER_EMAIL")
     RECIPIENT = os.getenv("RECIPIENT_EMAIL")
     AWS_REGION = os.getenv("AWS_REGION")
-    SUBJECT = "[AWS]IAM Access Key Notification - {}".format(username)
+    SUBJECT = "[AWS] IAM Access Key Notification - {}".format(username)
     BODY_HTML = """
     <html>
     <head></head>
