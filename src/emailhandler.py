@@ -15,15 +15,16 @@ def send_mesage(username, configmsg, compliance):
     SENDER = os.getenv("SENDER_EMAIL")
     RECIPIENT = os.getenv("RECIPIENT_EMAIL")
     AWS_REGION = os.getenv("AWS_REGION")
-    SUBJECT = "[AWS]{} needs to rotate their access keys!".format(username)
+    SUBJECT = "[AWS]IAM Access Key Notification - {}".format(username)
     BODY_HTML = """
     <html>
     <head></head>
     <body>
-      <h3>Access Key Over 90 Days Old</h3>
+      <h3>Please see access key information below</h3>
         <p>{user} is {compliance}.</p>
         <p>{configmsg}</p>
         <p>Please change access keys, and maybe your password too!</p>
+        <p>If the account is COMPLIANT, nothing to see here!</p>
     </body>
     </html>
                 """.format(

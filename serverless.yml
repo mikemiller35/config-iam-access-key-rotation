@@ -29,7 +29,7 @@ package:
         - '**/*'
 
 functions:
-    notifier:
+    noncompliant_notifier:
         handler: src/handler.lambda_handler
         memorySize: 128
         package:
@@ -48,3 +48,22 @@ functions:
                   newEvaluationResult:
                     complianceType:
                       - 'NON_COMPLIANT'
+    compliant_notifier:
+        handler: src/handler.lambda_handler
+        memorySize: 128
+        package:
+            include:
+                - src/**
+        events:
+            - cloudwatchEvent:
+               event:
+                source:
+                  - 'aws.config'
+                detail-type:
+                  - 'Config Rules Compliance Change'
+                detail:
+                  configRuleName:
+                    - 'IAM_ACCESS_KEY_ROTATED'
+                  newEvaluationResult:
+                    complianceType:
+                      - 'COMPLIANT'
