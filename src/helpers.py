@@ -3,6 +3,23 @@ import boto3
 from botocore.exceptions import ClientError
 
 
+def get_username(resourceId):
+    """
+    Take a resourceId and get friendly username, from the
+        IAM user list.
+    Args:
+        resourceId (str): resourceId of the user
+
+    Returns:
+        UserName (str): friendly username as a string
+    """
+    iam = boto3.client("iam")
+    response = iam.list_users()
+    for x in response["Users"]:
+        if x["UserId"] == resourceId:
+            return x["UserName"]
+
+
 def send_mesage(username, configmsg, compliance):
     """
     Send an email
